@@ -53,19 +53,19 @@
     }
 
 
-    function Question(text, choices, answer) {
+    function Question(text, choices, questionId) {
         console.log(choices);
         this.text = text;
         this.choices = choices;
-        this.answer = answer;
+        this.questionId = questionId;
     }
 
     Question.prototype.isCorrectAnswer = function (choice) {
         $.post('{{url('/ajax')}}', {
             _token: '{{csrf_token()}}',
-            type: 'result_quiz',
+            type: 'next-question',
             choise: choice,
-            questionId: choice,
+            questionId: this.questionId,
         }, function abc(ret) {
             console.log(ret);
         }, "json");
@@ -118,6 +118,7 @@
 
     // create questions here
     var question_id = 1;
+    var choiseName = "";
 
     var questions = [];
     while (question_id != null) {
@@ -126,14 +127,13 @@
             type: 'get-question',
             id: question_id
         }, function abc(ret) {
-            var item = new Question(ret['question'],  [(ret['cho0'] != null) ? ret['cho0'] : "", (ret['cho1'] != null) ? ret['cho1'] : "",(ret['cho2'] != null) ? ret['cho2'] : "",(ret['cho3'] != null) ? ret['cho3'] : ""], "2");
+            var item = new Question(ret['question'],  [(ret['cho0'] != null) ? ret['cho0'] : "", (ret['cho1'] != null) ? ret['cho1'] : "",(ret['cho2'] != null) ? ret['cho2'] : "",(ret['cho3'] != null) ? ret['cho3'] : ""], ret['questionId']);
             questions.push(item);
-            console.log(ret['cho0']);
+            console.log(ret['questionId']);
         }, "json");
         var item2 = new Question("İlk Soru?", ["PHP", "HTML", "JS", "All"], "PHP");
         questions.push(item2);
         question_id = null;
-
     }
 
     // create quiz

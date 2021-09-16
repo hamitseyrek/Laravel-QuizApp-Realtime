@@ -15,11 +15,6 @@ class QuizController extends Controller
     public function index()
     {
         $data = SurveyQuestions::with('getOptions')->get();
-        $arrayOptions =$data[0]->getOptions->pluck('option_value')->toArray();
-        $list=["HTML", "JQuery", "CSS", "XML"];
-
-
-        //dd($list,$arrayOptions);
         return view('quiz', compact('data'));
 
     }
@@ -37,7 +32,7 @@ class QuizController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -48,7 +43,7 @@ class QuizController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -59,7 +54,7 @@ class QuizController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -70,8 +65,8 @@ class QuizController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -82,7 +77,7 @@ class QuizController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
