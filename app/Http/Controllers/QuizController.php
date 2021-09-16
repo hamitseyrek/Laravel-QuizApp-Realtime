@@ -14,7 +14,12 @@ class QuizController extends Controller
      */
     public function index()
     {
-        $data = SurveyQuestions::all();
+        $data = SurveyQuestions::with('getOptions')->get();
+        $arrayOptions =$data[0]->getOptions->pluck('option_value')->toArray();
+        $list=["HTML", "JQuery", "CSS", "XML"];
+
+
+        //dd($list,$arrayOptions);
         return view('quiz', compact('data'));
 
     }

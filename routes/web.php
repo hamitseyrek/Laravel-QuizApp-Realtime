@@ -16,5 +16,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('quiz');
 });
+Route::post('ajax', '\App\Http\Controllers\AjaxController@index');
 
 Route::resource('show', '\App\Http\Controllers\QuizController');
