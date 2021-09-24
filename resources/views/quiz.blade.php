@@ -9,7 +9,7 @@
 <body>
 <div class="grid">
     <div id="quiz">
-        <h1 style="background-color: #1D3C6A">Quiz in JavaScript birmuhendis.net</h1>
+        <h1 style="background-color: #1D3CFA">Quiz in JavaScript birmuhendis.net</h1>
         <hr style="margin-bottom: 20px">
 
         <p id="question"></p>
@@ -44,7 +44,6 @@
         if (this.getQuestionIndex().isCorrectAnswer(answer)) {
             this.score++;
         }
-
         this.questionIndex++;
     }
 
@@ -54,7 +53,6 @@
 
 
     function Question(text, choices, questionId) {
-        console.log(choices);
         this.text = text;
         this.choices = choices;
         this.questionId = questionId;
@@ -67,7 +65,8 @@
             choise: choice,
             questionId: this.questionId,
         }, function abc(ret) {
-            console.log(ret);
+            var item = new Question(ret['question'],  [(ret['cho0'] != null) ? ret['cho0'] : "", (ret['cho1'] != null) ? ret['cho1'] : "",(ret['cho2'] != null) ? ret['cho2'] : "",(ret['cho3'] != null) ? ret['cho3'] : ""], ret['questionId']);
+            questions.push(item);
         }, "json");
         return true;
         //return this.answer === choice;
@@ -84,6 +83,7 @@
 
             // show options
             var choices = quiz.getQuestionIndex().choices;
+            var qId = quiz.getQuestionIndex().questionId;
             for (var i = 0; i < choices.length; i++) {
                 var element = document.getElementById("choice" + i);
                 element.innerHTML = choices[i];
@@ -121,6 +121,7 @@
     var choiseName = "";
 
     var questions = [];
+
     while (question_id != null) {
         $.post('{{url('/ajax')}}', {
             _token: '{{csrf_token()}}',
@@ -129,13 +130,15 @@
         }, function abc(ret) {
             var item = new Question(ret['question'],  [(ret['cho0'] != null) ? ret['cho0'] : "", (ret['cho1'] != null) ? ret['cho1'] : "",(ret['cho2'] != null) ? ret['cho2'] : "",(ret['cho3'] != null) ? ret['cho3'] : ""], ret['questionId']);
             questions.push(item);
-            console.log(ret['questionId']);
         }, "json");
-        var item2 = new Question("İlk Soru?", ["PHP", "HTML", "JS", "All"], "PHP");
+
+        var item2 = new Question("İlk Soru?", ["PHP", "HTML", "JS", "refd"], 1);
         questions.push(item2);
         question_id = null;
     }
+function getnextQuestion(question_id) {
 
+}
     // create quiz
     var quiz = new Quiz(questions);
 
